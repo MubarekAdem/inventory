@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  USER
+}
+
+enum InventoryStatus {
+  IN_STOCK
+  OUT_OF_STOCK
+  LOW_STOCK
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  role      UserRole @default(USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Inventory items created/modified by this user
+  inventoryItems InventoryItem[]
+
+  @@map("users")
+}
+
+model InventoryItem {
+  id          String          @id @default(cuid())
+  name        String
+  description String?
+  sku         String          @unique
+  quantity    Int             @default(0)
+  minQuantity Int             @default(0)
+  price       Decimal         @db.Decimal(10, 2)
+  category    String?
+  location    String?
+  status      InventoryStatus @default(IN_STOCK)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  // User who created this item
+  createdBy   User   @relation(fields: [createdById], references: [id])
+  createdById String
+
+  @@map("inventory_items")
+} 
