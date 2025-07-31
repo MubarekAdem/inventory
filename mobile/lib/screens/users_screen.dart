@@ -190,16 +190,18 @@ class UsersScreen extends ConsumerWidget {
                                   ),
                                   decoration: BoxDecoration(
                                     color:
-                                        user.isActive
+                                        (user.isActive ?? true)
                                             ? Colors.green.withOpacity(0.1)
                                             : Colors.red.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Text(
-                                    user.isActive ? 'Active' : 'Inactive',
+                                    (user.isActive ?? true)
+                                        ? 'Active'
+                                        : 'Inactive',
                                     style: TextStyle(
                                       color:
-                                          user.isActive
+                                          (user.isActive ?? true)
                                               ? Colors.green
                                               : Colors.red,
                                       fontSize: 12,
@@ -211,7 +213,7 @@ class UsersScreen extends ConsumerWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Created: ${_formatDate(user.createdAt)}',
+                              'Created: ${_formatDate(user.createdAt ?? DateTime.now())}',
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 12,
@@ -228,7 +230,7 @@ class UsersScreen extends ConsumerWidget {
                                           .read(userManagementProvider.notifier)
                                           .updateUserStatus(
                                             user.id,
-                                            !user.isActive,
+                                            !(user.isActive ?? true),
                                           );
                                     }
                                   },
@@ -238,21 +240,21 @@ class UsersScreen extends ConsumerWidget {
                                           value: 'toggle_status',
                                           child: ListTile(
                                             leading: Icon(
-                                              user.isActive
+                                              (user.isActive ?? true)
                                                   ? Icons.block
                                                   : Icons.check_circle,
                                               color:
-                                                  user.isActive
+                                                  (user.isActive ?? true)
                                                       ? Colors.red
                                                       : Colors.green,
                                             ),
                                             title: Text(
-                                              user.isActive
+                                              (user.isActive ?? true)
                                                   ? 'Deactivate'
                                                   : 'Activate',
                                               style: TextStyle(
                                                 color:
-                                                    user.isActive
+                                                    (user.isActive ?? true)
                                                         ? Colors.red
                                                         : Colors.green,
                                               ),

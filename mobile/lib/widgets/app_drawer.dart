@@ -22,7 +22,7 @@ class AppDrawer extends ConsumerWidget {
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
               child: Text(
-                user?.username.substring(0, 1).toUpperCase() ?? 'U',
+                (user?.username ?? 'U').substring(0, 1).toUpperCase(),
                 style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 24,
